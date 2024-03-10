@@ -1,0 +1,103 @@
+
+
+.container{
+	display: grid;
+	grid-template-columns:  1200px ;
+	grid-template-rows: auto;
+	justify-content: center;
+	column-gap:15px ;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.btn-check:checked + .btn-outline-dark {
+    background-color:  white;
+    outline-color:  white;
+    border-color: white;  
+    color: #050642;
+}
+  
+.btn-check + .btn-outline-dark{
+    outline-color: white;
+    color:  white;
+    border-color:white;
+}
+
+body{
+    background-image: linear-gradient(to bottom,#050642,#e94873,#050642,black);
+}
+nav{
+    background-color: white;
+    height: 60px;
+    margin:10px;
+    border-radius: 20px;
+}
+.logo{
+    margin-left: 580px;
+}
+   h3,h1{
+    color:#050642;
+    font-family: Georgia;
+   }
+   h1{
+    color:white;
+    font-weight: 600;
+    font-family: Georgia;
+   }
+   .pink{
+    color:#d4365F;
+   }
+   td input[type="text"],input[type="date"]{
+    background-color: transparent;
+    border: none;
+    color:white;
+   }
+   th{
+    color:white;
+   }
+   input[type="submit"]{
+    background-color: #d4365F;
+    color: white;
+    padding:8px 18px;
+    border:none;
+    margin-bottom: 5px;
+    border-radius: 25px;
+
+   }
+ #ajt,#sup,#delete,#add {
+    background-color:white !important; 
+    color:black;
+    margin-left:3px;
+   }
+   span{
+    margin:5px;
+   }
+
+   .avatar{
+    position: relative;
+    bottom: 1500px;
+    left:890px;
+   }
+ select{
+  background-color: transparent;
+  color:white;
+ }
+   
+    .avatar {
+        position: relative;
+        animation: translateY 3s infinite linear;
+      }
+      
+      @keyframes translateY {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(300px);
+        }
+        100% {
+            transform: translateY(0);
+          }
+      }
+      
+
+  

@@ -1,0 +1,195 @@
+#btn,#btn1{
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.377) ;
+}
+.logo{
+    position: relative;
+    left: 10px;
+}
+#head1{
+    background-image: url('./images/undraw_co-working_re_w93t.svg');
+}
+
+.box{
+    border: none;
+    padding-top: 11%;
+    height: 200px;
+    border: 1px solid rgb(240, 240, 240);
+}
+.box h5{
+    color: #d4365f;
+    font-family:Roboto,  'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+}
+
+.boxContainer{ 
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr ;
+    row-gap: 1ch;
+    column-gap: 2ch;
+    margin-right: 80px;
+    margin-left: 80px;
+}
+
+.box:hover{
+   opacity: 0.7;
+   border:1px solid #050642;
+   letter-spacing: 0.5px;
+   transition: 1s;
+}
+.img-container{
+    position:relative;
+  
+}
+.img-container img {
+    transition: transform 0.5s ease;
+}
+
+.img-container:hover img {
+    transform: rotateY(-180deg);
+  }
+
+#info{
+background-image: url('./images/back2.jpg');
+padding-top: 20px;
+}
+#info h2{
+    color: white;
+}
+.boxs{
+    background-color:#000040;  
+}
+.boxs p,h5{
+    color: white;
+}
+nav .btnnav button {
+    --c: dodgerblue;
+    color: var(--c);
+    font-size: 16px;
+    border: 0.3em solid var(--c);
+    border-radius: 0.5em;
+    width: 12em;
+    height: 3em;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: sans-serif;
+    letter-spacing: 0.1em;
+    text-align: center;
+    line-height: 3em;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: 0.5s;
+    margin: 1em;
+}
+
+nav .btnnav button span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    background-color: var(--c);
+    transform: translateY(150%);
+    border-radius: 50%;
+    left: calc((var(--n) - 1) * 25%);
+    transition: 0.5s;
+    transition-delay: calc((var(--n) - 1) * 0.1s);
+    z-index: -1;
+}
+
+nav .btnnav button:hover {
+    color: black;
+}
+
+nav .btnnav button:hover span {
+    transform: translateY(0) scale(2);
+}
+
+nav .btnnav button span:nth-child(1) {
+    --n: 1;
+}
+
+nav .btnnav button span:nth-child(2) {
+    --n: 2;
+}
+
+nav .btnnav button span:nth-child(3) {
+    --n: 3;
+}
+
+nav .btnnav button span:nth-child(4) {
+    --n: 4;
+}
+#btn-back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    border-radius: 50px;
+    width: 10px;
+    height: 10px;
+    
+    
+  }
+  #btn-back-to-top img{
+    width: 40px;
+    position: absolute;
+    top: 10px;
+    right: 22px;
+  }
+  footer{
+    flex-shrink: 0;
+    border-top: 1px dashed #000;
+    width: 100%;
+    background-image: url(./images/back2.jpg);
+    color: white;
+}
+.contenu-footer{
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+    padding: 50px 0 100px;
+}
+.block{
+    width: 25%;
+    margin:0 30px;
+}
+
+
+.contenu-footer h3{
+    padding: 5px 0;
+    color: dodgerblue;
+    text-transform: capitalize;
+}
+
+.listemedia{
+    position: relative;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 3rem 0;
+}
+.listemedia img{
+    width: 30px;
+    margin: 10px 10px;
+}
+.listemedia a:hover{
+    color:dodgerblue;
+}
+.footer-bottom{
+    text-align: center;
+}
+
+.img2:hover {
+    filter: invert(37%) sepia(89%) saturate(3570%) hue-rotate(294deg) brightness(101%) contrast(101%);
+}
+footer{
+    height: 370px;
+}

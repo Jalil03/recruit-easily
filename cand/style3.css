@@ -1,0 +1,67 @@
+body{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+}
+.box h5{
+    color: #d4365f;
+    font-family:Roboto,  'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+}
+.boxContainer{ 
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 1ch;
+    column-gap: 2ch;
+    margin-right: 70px;
+    margin-left: 70px;
+    background-color:none; 
+}
+.box:hover{
+   opacity: 0.7;
+   border:1px solid #050642;
+}
+a{
+   text-decoration: none;
+   color: white;
+}
+button{
+   background-color: #D4365F;
+    width: 150px;
+    height: auto;
+    padding:9px 12px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: 1px 1px 2px gray;
+    font-weight: 300;
+    font-size: medium;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.search{
+    margin: 30px 50px;
+    border: 2px solid #050642;
+    background-color: rgb(249, 223, 223);
+    padding: 10px 50px;
+}
+#search-button{
+    padding:7px 7px;
+    width: 100px;
+    color: white;
+}
+
+select, option {
+    padding: 0.5em 1em;
+    font-family: 'Roboto';
+    font-weight: 500;
+}
+.score{
+    background-color: #050642;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    width: 70%;
+    text-align: center;
+    padding: 2px 5px;
+}
+
+.nodata{ margin: auto; }
