@@ -15,6 +15,7 @@ if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="logout
 ?>
 <html>  
 <head>  
+    
     <title>PHP login system</title>  
 <!--     <link rel="stylesheet" href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="style.css">
@@ -204,7 +205,7 @@ if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="logout
           
               <h3>Nos contacts</h3>
           <div class="services text-white">
-              <p>+212 666-77-88-99</p>
+              <p>+212 608086188</p>
               <p>supportcondidat@contact.com</p>
               <p>444 S.Casablanca Settat</p>
           </div>

@@ -1,13 +1,14 @@
 <?php
 
+// cette dashbord est pour le candidat et le recrutteur on difference entre eux avec le id_user;
+
 require('util.php');
 require('database.php');
 init_php_session();
 if(!isset($_SESSION['type_user']))
-$_SESSION['type_user']=2;
+$_SESSION['type_user']=2; // 2 pour type user candidat 
+
 // Pour se deconnecter :  
-
-
 if(!isset($_SESSION['id'])){
   header('location:login.php');
 }
@@ -223,6 +224,10 @@ li{
  color:red;
 }
 
+.hidden {
+    display: none;
+}
+
 
     </style>
 </head>
@@ -330,13 +335,22 @@ li{
               <?php endif; ?> 
                   <!-- la fin pour le  traitement d'image associe a chaque candidat   ! -->
              
-               <div class="score">
-                 Score <br><?= $candidat['score'] ?>
-               </div>
-             </div>
-             <h4>  <?php if($_SESSION['type_user']==1 || verifier($_SESSION['id'],$candidat['id_candidat'])):?><?= $candidat['nom'] ?> <?= $candidat['prenom'] ?>
-            <?php else:?>******* *******<?php endif?>
-            </h4>
+  <div class="score <?php if($_SESSION['type_user'] != 1 && !verifier($_SESSION['id'], $candidat['id_candidat'])) echo 'hidden'; ?>">
+          
+        <?php if($_SESSION['type_user'] == 1 || verifier($_SESSION['id'], $candidat['id_candidat'])): ?>
+                Score <br><?= $candidat['score'] ?>
+            <?php endif; ?>
+        </div>
+        </div>
+        <h4 class="<?php if($_SESSION['type_user'] != 1 && !verifier($_SESSION['id'], $candidat['id_candidat'])) echo 'hidden'; ?>">
+            <?php if($_SESSION['type_user'] == 1 || verifier($_SESSION['id'], $candidat['id_candidat'])): ?>
+                <?= $candidat['nom'] ?> <?= $candidat['prenom'] ?>
+            <?php else: ?>
+                ******* *******
+            <?php endif; ?>
+        </h4>
+
+
              <h5 class="mt-3"><?= $candidat['nom_domaine'] ?></h5>
              <p class="mt-3"><strong>Candidate position:</strong> <?= $candidat['nom_poste'] ?></p>    
      <button name="submit">

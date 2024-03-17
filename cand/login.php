@@ -1,10 +1,18 @@
 <?php
+
+
+// une page de login on verifi si un user e deja un acc ou non , sinon on affiche 2 msgs qui dependent de l'erreur de l'user 
  require('database.php');
  require('util.php');
  init_php_session();
  if(isset($_SESSION['id'])){
   header('location:dashboard.php');
 }
+
+
+/*  on verifie d'abord si une session est deja actif (cad si l'user est deja connecter ) */
+
+
    /*
    D'abord on doit vérifier si l'utilisateur a bien remplit tout les champs
    */
@@ -19,10 +27,10 @@
         //verification de l'existance de l'utilisateur
          // préparation de la requête et l'execution
           $sth = $PDO->prepare("SELECT * FROM user WHERE email = :email");
-          $sth->bindValue(':email',$email);
+          $sth->bindValue(':email',$email); // pour eviter les sqls injections
           $sth->execute();
         // on stocke les données qu'on a recupéré 
-          $row = $sth->fetch(PDO::FETCH_ASSOC);
+          $row = $sth->fetch(PDO::FETCH_ASSOC); // ligne par ligne 
 
         // si on a trouvé :
         if($row)
