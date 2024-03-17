@@ -1,7 +1,7 @@
 <?php
 
 // Login info pour la connexion à la bdd
-$DB_DSN="mysql:host=localhost;dbname=techjob";
+$DB_DSN="mysql:host=localhost;dbname=rec";
 $DB_USER="root";
 $DB_PASS="";
 

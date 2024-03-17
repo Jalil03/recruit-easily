@@ -97,7 +97,7 @@
          }
     
         ?> 
-        <!-- <label for="experience">expérience:</label><br> -->
+     
         <h3 class="pink">Experience</h3>
         <table id="exp" class="table" >
           <tr>

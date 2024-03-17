@@ -1,4 +1,8 @@
 <?php
+
+// la page qui contient les offres 
+
+
 require('util.php');
 require('database.php');
 init_php_session();
@@ -17,12 +21,16 @@ if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="logout
 // Pour le filtre :
 
 $requete = "select * from offre,recruteur,domaine,ville WHERE  ville.id_ville=offre.id_localisation AND offre.id_recruteur=recruteur.id_recruteur AND offre.id_domaine=domaine.id_domaine ORDER BY date_publication DESC";
-// On récupère les offres de la base de données
+// On récupère les offres de la base de données il sonts ordonnes avec un ordre decroissant 
+
 $stmt = $PDO->prepare($requete);
 $stmt->execute();
 $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// on a attribuer le resulatate a la variables offres
+
 // requête préparée pour les domaines
+
 $stmt = $PDO->prepare("SELECT * FROM domaine");
 $stmt->execute();
 $domaines = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -33,9 +41,16 @@ $stmt->execute();
 $villes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-if($_SERVER['REQUEST_METHOD'] === 'POST')
+// ces variables on va les utiliser apres dans le html body 
+
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' /* si on envoye le formulaire  */ )
+
 {    
-   $requete = "select * from offre,recruteur,domaine,ville WHERE  ville.id_ville=offre.id_localisation AND offre.id_recruteur=recruteur.id_recruteur AND offre.id_domaine=domaine.id_domaine"; // on ré-initialise la requête
+   $requete = "select * from offre,recruteur,domaine,ville WHERE  ville.id_ville=offre.id_localisation AND offre.id_recruteur=recruteur.id_recruteur AND offre.id_domaine=domaine.id_domaine"; 
+   // fehal lblan li 9bel (i dont remeber exactly fin ) nafss la requette walakin hena ghadi nzido fiha des where apres
+   
+   // on ré-initialise la requête
 
     $dom = $_POST['domaine']; // on récupère le domaine
     $ville = $_POST['ville']; // on récupère la ville

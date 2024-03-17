@@ -183,7 +183,7 @@ li{
 <body>
     <div class="container">
         <div class="logo">
-           <img src="../images/logoW.jpg" alt="logo du site techjob" width="100px" height="auto">
+           <img src="../images/logoW.jpg" alt="logo du site recruiteasily" width="100px" height="auto">
         </div>
         <div class="navigation">
            <p><a href="dashboard.php">Candidats</a></p>

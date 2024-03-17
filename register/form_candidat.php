@@ -30,7 +30,7 @@
 
 
 <div class="a">
-   <h1  >Welcome abroad <span>TechJob </span></h1>
+   <h1  >Welcome abroad <span>RecruitEasily </span></h1>
    <h3 class="tit">First, tell us what your role is ?</h3>
    <div class="container justify-content-center">
 

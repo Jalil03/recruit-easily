@@ -1,5 +1,8 @@
     <?php
-      
+       
+
+// when in dashboard clicked on post an offer we will be redirected to this page (ofc hadi l recruteur )
+
       include('database.php');
       include('util.php');
       init_php_session() ;
@@ -18,6 +21,7 @@
 
       // on récupère les données entrées par le recruteur pour qu'on puisse les stocker dans la base de données
       if(isset($_POST['submit'])){
+
         $type=$_POST['type'];
         $description=$_POST['description'];
         $date = date('Y-m-d');

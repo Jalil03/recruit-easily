@@ -9,14 +9,23 @@ if(!isset($_SESSION['id'])){
 // Pour se deconnecter :  
 $rq=$PDO->prepare('select * from candidat,domaine,poste WHERE poste.id_poste=candidat.id_poste and candidat.id_domaine=domaine.id_domaine and id_candidat=?');
 $rq->execute(array($_GET['id']));
+
+//recupere les infos du candidats y compris le nom , prenom domaine et postes
+
 $_SESSION['id_can']=$_GET['id'];
 $rq1=$PDO->prepare('select * from candidat,comp_candidat,competences,domaine_comp WHERE
 domaine_comp.id_comp=comp_candidat.id_comp and
 candidat.id_candidat=comp_candidat.id_candidat and competences.id_comp=comp_candidat.id_comp and candidat.id_candidat=? and domaine_comp.id_domaine=?');
+
+// recupere les competences du candidats dans un domaine specifique
+
 $rq2=$PDO->prepare('SELECT * from comp_candidat,competences WHERE comp_candidat.id_comp=competences.id_comp and comp_candidat.id_candidat=? and nom_comp not in(
   select nom_comp from comp_candidat,competences,domaine_comp WHERE
   domaine_comp.id_comp=comp_candidat.id_comp
   and competences.id_comp=comp_candidat.id_comp and comp_candidat.id_candidat=? and domaine_comp.id_domaine=?)');
+
+// recupere les compétences du candidat qui ne sont pas associées à un domaine spécifique.
+
 if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="logout")
 {
  // on arrête la session (voir la définition de la fonction dans le fichier util.php)
@@ -25,17 +34,36 @@ if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="logout
  header("location:../index.php"); 
  exit();
 }
+
+
 $ligne=$rq->fetch();
+
+// on va utiliser $ligne['id_domaine] de la rq0 dans touts les autres requettes 
+
 $rq1->execute(array($_GET['id'],$ligne['id_domaine']));
+
 $rq2->execute(array($_GET['id'],$_GET['id'],$ligne['id_domaine']));
+
 $compro=$rq1->fetchall();
+
 $comps=$rq2->fetchAll();
+
 $rq3=$PDO->prepare('select * from experience where id_candi=?');
+
 $rq3->execute(array($_GET['id']));
+
 $exp=$rq3->fetchAll();
+
 $rq3=$PDO->prepare('select * from education where id_candi=?');
+
 $rq3->execute(array($_GET['id']));
+
 $edu=$rq3->fetchAll();
+
+// récupèrent les expériences et l'éducation du candidat à afficher sur son profil.
+
+
+
 // On cherche le nom du user pour l'afficher
 if($_SESSION['type_user'] == 2)
 {
@@ -51,6 +79,10 @@ if($_SESSION['type_user'] == 2)
    $nomPseudo="";
    $prenomPseudo="";
   }
+
+// meme logique pour touts les autres pages 
+
+
 }
 
 else {
@@ -215,64 +247,50 @@ $stmt = $PDO->prepare($rq);
              <img src="user-profile-man.jpg" alt="" srcset="">
               <?php endif; ?>
            
-            <table >
-                <tr>
-                    <?php if($_SESSION['type_user']==1):?>
-                    <td colspan="2" class="titre">Contact this profile for a recruitment</td>  
-                    <?php else: ?>
-                        <td colspan="2" class="titre">Profile candidat</td>  
-                    <?php endif ?>       
-                </tr>
-                <tr>
-                  <td><strong>Nom : </strong> <?php if($_SESSION['type_user']==1  || verifier($_SESSION['id'],$ligne['id_candidat'])) :?><?=$ligne['nom']?>
-                  <?php else:?>
-                    ********
-                    <?php endif ?>  
-                  </td>
-                  <td class="td2"><strong>Prenom : </strong><?php if($_SESSION['type_user']==1 || verifier($_SESSION['id'],$ligne['id_candidat'])):?><?=$ligne['prenom']?>
-                  <?php else:?>
-                    ********
-                    <?php endif ?>  
-                  </td>
-                </tr>
-                <tr>
-                    <td ><strong>Telephone : </strong> <?php if($_SESSION['type_user']==1 || verifier($_SESSION['id'],$ligne['id_candidat'])):?>
-                      <?=$ligne['num_tel']?>
-                      <?php else:?>
-                        **************
-                      <?php endif ?> 
-                    </td>
-                  
-                    <td class="td2"><strong>Email : </strong>  <?php if($_SESSION['type_user']==1 || verifier($_SESSION['id'],$ligne['id_candidat'])):?><?=$ligne['email_contact']?>
-                      <?php else:?>
-                        ********@******
-                    </td>
-                    <?php endif ?>  
-                </tr>
-                <tr>
-                    <td><strong>Domaine : </strong><?=$ligne['nom_domaine']?></td>
-                    <td class="td2"><strong>Poste : </strong><?=$ligne['nom_poste']?></td>
-                </tr> <?php if($_SESSION['type_user']==1):?>
-                <tr>
-                    <td><strong>CV : </strong><a class="cva" href="cv/<?=$ligne['cv']?>" download="<?=$ligne['nom'].' cv'?>">Télécharger le CV</a></td>
-                    
-                </tr>
-                <?php endif ?>  
-              </table>
+              <table>
+    <tr>
+        <?php if ($_SESSION['type_user'] == 1) : ?>
+            <td colspan="2" class="titre">Contact this profile for a recruitment</td>
+        <?php else : ?>
+            <td colspan="2" class="titre">Profile candidat</td>
+        <?php endif ?>
+    </tr>
+    <tr>
+        <td><strong>Nom : </strong> <?= $ligne['nom'] ?></td>
+        <td class="td2"><strong>Prenom : </strong><?= $ligne['prenom'] ?></td>
+    </tr>
+    <tr>
+        <td><strong>Telephone : </strong> <?= $ligne['num_tel'] ?></td>
+        <td class="td2"><strong>Email : </strong> <?= $ligne['email_contact'] ?></td>
+    </tr>
+    <tr>
+        <td><strong>Domaine : </strong><?= $ligne['nom_domaine'] ?></td>
+        <td class="td2"><strong>Poste : </strong><?= $ligne['nom_poste'] ?></td>
+    </tr>
+    <?php if ($_SESSION['type_user'] == 1) : ?>
+        <tr>
+            <td><strong>CV : </strong><a class="cva" href="cv/<?= $ligne['cv'] ?>" download="<?= $ligne['nom'] . ' cv' ?>">Télécharger le CV</a></td>
+        </tr>
+    <?php endif
+    // j'ai verifier le code pour afficher le nom des candidats meme si on est un candidat aussi
+    ?>
+</table>
+
               <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1):?>
                 <a href="send.php"><button class="con">Contacter</button></a>
               <?php endif ?>
         </div>
         <div class="divt">
-        <h2>Détails du profil
-        </h2>
+        <h2>Détails du profil</h2>
         </div>
         
         <div class="infocanm">
          <div>
          <h2>Compétence primaire : </h2>
          <p>
-         <?php foreach ($compro as $key => $comp): ?>
+         <?php 
+         // je vais verifier cette methode pour avoir les donner extrait du cv , si on'as pas de cv je vais aller a la page de sign up et demander avoir l'option de remplir le cv manuellement ou bien donner le cv est extraire les donnes apres 
+         foreach ($compro as $key => $comp): ?>
                     <span><?=$comp['nom_comp']?></span>
                    <?php if($key !=(count($compro) - 1)):?>
                    ,

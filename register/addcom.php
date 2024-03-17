@@ -91,15 +91,20 @@ if(isset($_POST['expr'])){
     
     }
     }
+
     if(isset($_POST['aucompetence'])){
         $var=$_POST['aucompetence'];
         foreach ($var as $valeur) {
             $rq=$conn->prepare('insert into comp_candidat values (?,?)');
             $rq->execute(array($valeur,$_SESSION['id']));}
         }
-    if(!empty($_POST['datef']) && !empty($_POST['nomen']) && !empty($_POST['dated']) && !empty($_POST['expr']) )   {
+
+        // aucompetences sontles competences secondaire
+    
+    
+        if(!empty($_POST['datef']) && !empty($_POST['nomen']) && !empty($_POST['dated']) && !empty($_POST['expr']) )   {
         for($i=0;$i<count($tabexp);$i++){
-            $rq=$conn->prepare('insert into experience (description,date_debut,date_fin,nom_entreprise,type,id_candi) values (?,?,?,?,?,?)');
+            $rq=$conn->prepare('insert into experience (description,date_debut,date_fin,nom_entreprise,type,id_candi) values (?,? ,?,?,?,?)');
             $rq->execute(array($tabexp[$i],$tabdated[$i],$tabdatef[$i],$tabnomen[$i],$taboptions[$i],$_SESSION['id']));
         }
     }
@@ -139,6 +144,10 @@ if(isset($_POST['aucompetence'])){
     if(isset($_POST['educ'])){
         foreach ($_POST['educ'] as $v){
       $score+=3;
+
+
+
+
       
         }
     }

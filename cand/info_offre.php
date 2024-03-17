@@ -60,7 +60,7 @@ $stmt = $PDO->prepare($rq);
     <link rel="stylesheet" href="style3.css">
     <link  rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/ bootstrap.min.css">
     <style>
        .box{
     padding: 10px 30px;
