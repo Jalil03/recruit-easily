@@ -72,21 +72,12 @@ nav{
     margin:5px;
    }
 
-   .avatar{
-    position: relative;
-    bottom: 1500px;
-    left:890px;
-   }
+  
  select{
   background-color: transparent;
   color:white;
  }
    
-    .avatar {
-        position: relative;
-        animation: translateY 3s infinite linear;
-      }
-      
       @keyframes translateY {
         0% {
           transform: translateY(0);

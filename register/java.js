@@ -7,6 +7,9 @@ var btn1=document.getElementById('add');
 var err1=document.getElementById('msg');
 var sup1=document.getElementById('delete');
 
+
+// ce scrip est utiliser pour ajouter/supprimer des lignes de l'education et l'experience dans la page register-cand-comp (on ne peut pas depasser 5 )
+
 var i=1;
 var j=1;
 var tab=[];

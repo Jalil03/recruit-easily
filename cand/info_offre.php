@@ -13,12 +13,22 @@ $idrec=$rq->fetch()['id_recruteur'];
 $rq1=$PDO->prepare('select * from offre,ville,domaine,recruteur where offre.id_recruteur=recruteur.id_recruteur and offre.id_domaine=domaine.id_domaine and offre.id_localisation=ville.id_ville and id_offre=?');
 $rq1->execute(array($_GET['id']));
 $off=$rq1->fetch(PDO::FETCH_ASSOC);
+
+// requette des offres
+
 $rq2=$PDO->prepare('select id_recruteur from offre where id_offre=?');
 $rq2->execute(array($_GET['id']));
 $id_rec=$rq2->fetch()['id_recruteur'];
+
+/// des recs
+
 $rq=$PDO->prepare('select * from candidat,postule,domaine,poste WHERE candidat.id_domaine=domaine.id_domaine and candidat.id_domaine=domaine.id_domaine and poste.id_poste=candidat.id_poste and  candidat.id_candidat=postule.id_candidat and postule.id_offre=?');
 $rq->execute(array($_GET['id']));
 $lignes=$rq->fetchAll(PDO::FETCH_ASSOC);
+
+
+// lignes
+
 // On cherche le nom du user pour l'afficher
 if($_SESSION['type_user'] == 2)
 {
@@ -82,6 +92,16 @@ $stmt = $PDO->prepare($rq);
         padding: 15px;
           
     }
+
+    #jl{
+      color: lightblue;
+      background-color: lightblue;
+    }
+
+    #jl2{
+         color: dodgerblue;
+         background-color: dodgerblue;
+      }
     .infoent{
     width: 90%;
     height: fit-content;
@@ -144,7 +164,7 @@ $stmt = $PDO->prepare($rq);
 <body>
     <div class="container">
         <div class="logo">
-           <img src="../images/logoW.jpg" alt="logo du site techjob" width="100px" height="auto">
+           <img src="../images/logoW.jpg" alt="logo du site recruiteasily" width="100px" height="auto">
         </div>
         <div class="navigation">
            <p><a href="dashboard.php">Candidats</a></p>
@@ -158,11 +178,11 @@ $stmt = $PDO->prepare($rq);
         <div class="bouttons">
         <p style="display:inline; font-size:larger; margin-right:20px;"><strong><?= $nomPseudo ?><?= $prenomPseudo ?></strong></p>
            <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1): ?>
-              <button class="post" name='poster'><a href="./form_offer.php">Post an offer</a></button>
+              <button id="jl2" class="post" name='poster'><a href="./form_offer.php">Post an offer</a></button>
               <?php endif; ?>
               <!--  Si l'utilisateur veut se déconnecter on va le redirectionner vers login.php 
               on précise le champ action=logout (le traitement est dans la partie en haut) -->
-              <button><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
+              <button id="jl2"><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
            </div>
         </div>
 
@@ -173,7 +193,7 @@ $stmt = $PDO->prepare($rq);
              <?php 
               $nomImage = $off['photo']; // the filename is stored in this variable
               $cheminImage = "../register/upload1/" . $nomImage; // the path to the image is created using the filename
-              echo "<img  width='100px' height='auto' src='" . $cheminImage . "' >";
+              echo "<img  width='50px' height='50px' class='img rounded-circle' src='" . $cheminImage . "' >";
               ?>
              <?php else: ?>
              <img src="../images/logoW.jpg" alt="" srcset="">
@@ -222,20 +242,25 @@ $stmt = $PDO->prepare($rq);
                 </tr>
             </table>
             <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==2):?>
+
+<!-- on va faire soit le apply soit appliation already ... si on est cand , sinon on va donner la possibilite de modifier l'offre si on est rec -> vers forme update offre -->          
+
     <form action="postulation.php" method="post">
     <?php if(!postuler($_SESSION['id'],$_GET['id'])):?>   
-    <button ><a href="postulation.php?id=<?=$_GET['id']?>">Apply</a></button>
+    <button id="jl" ><a href="postulation.php?id=<?=$_GET['id']?>">Apply</a></button>
     <?php else:?>
-    <button disabled style="color:white;">application already submitted</button>
+    <button id="jl" disabled style="color:white;">application already submitted</button>
     <?php endif ?>
     <?php else:?>
         <?php if(verifier($id_rec,$_SESSION['id'])):?>
-        <button name="submit" ><a href="form_update_offre.php?id=<?=$_GET['id']?>">Modifier votre offre</a></button>
+        <button id="jl" name="submit" ><a href="form_update_offre.php?id=<?=$_GET['id']?>">Modifier votre offre</a></button>
         
     </form>
     <?php endif?>
     <?php endif ?>
     </div>
+
+    <!-- dans cette partie on va voir les candidats qui ont postuler pour cette offres , afficher le score , nom ,prenom ... -->
     <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1) :?>
     <?php if(verifier($id_rec,$_SESSION['id'])) :?>
         <h3 class="tt">Candidates apply for this offer</h3>
@@ -254,7 +279,7 @@ $stmt = $PDO->prepare($rq);
              <h4> <?= $candidat['nom'] ?> <?= $candidat['prenom'] ?></h4>
              <h5 class="mt-3"><?= $candidat['nom_domaine'] ?></h5>
              <p class="mt-3"><strong>Candidate position:</strong> <?= $candidat['nom_poste'] ?></p>    
-     <button name="submit">
+     <button id="jl2" name="submit">
         <a href="infocan.php?id=<?=$candidat['id_candidat']?>" class="Contactez nous">Check profile</a>
        </button>
          </div>

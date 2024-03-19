@@ -1,0 +1,515 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+}
+.containerxxx{
+    background-color: white;
+    display: flex;
+    padding: 0 3rem;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.containerxxx .logo {
+    height: 59px;
+    width: 59px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    overflow: hidden;
+    color: #25a4cf;
+}
+.containerxxx .logo img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.navigation{
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 380px;
+}
+.navigation a{
+    color : #37b7e1;
+    font-weight: 500;
+    color : black;
+    text-decoration: none;
+}
+.navigation a:hover{
+    color: #25a4cf;
+    text-decoration: underline;
+}
+ 
+.containerxxx .bouttons .disconnect{
+    height: 33px;
+    width: 140px;
+    border-radius: .4rem;
+    background-color: #25a4cf;
+    color: white;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 1px solid #007ca5;
+}
+.bouttons{
+    width: auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bouttons p{
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 15px;
+}
+.bouttons p:hover{
+    color: #25a4cf;
+}
+
+
+.search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    padding: 1rem 0;
+    width: 100%;
+    flex-direction: column;
+}
+#form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+#domaine{
+    color: black;
+    height: 30px;
+    width: 240px;
+    border-radius: 0.34rem;
+    border: 1px solid #007ca5;
+    cursor: pointer;
+    text-align: center;
+}
+#position{
+    color: black;
+    height: 30px;
+    width: 240px;
+    border-radius: 0.34rem;
+    border: 1px solid #007ca5;
+    cursor: pointer;
+    text-align: center;
+}
+#ville, #type_offre{
+    color: black;
+    height: 30px;
+    width: 240px;
+    border-radius: 0.34rem;
+    border: 1px solid #007ca5;
+    cursor: pointer;
+    text-align: center;
+}
+.jack{
+    display: grid;
+  grid-template-columns: 300px 300px 300px 300px ; /* spécifiez le nombre et la taille des colonnes */
+  grid-gap:2rem;
+    width: auto;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+
+}
+ .boxrounded{
+    margin: auto;
+    min-height: 310px ;
+    width: 300px;
+    border: 1px solid rgb(236, 236, 236);
+    border-radius: 0.666rem;
+    overflow: hidden;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+.haut{
+    height: 100px;
+    width: 100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    margin-top: 1.4rem;
+}
+.haut img{
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #25a4cf;
+}
+.haut .score{
+    position: absolute;
+    
+}
+.boxrounded{
+    transition: .2s all ease-in-out;
+}
+.boxrounded:hover{
+    cursor: default;
+}
+.boxrounded h4{
+    color: black;
+    text-align: center;
+    margin-top: 1.9rem;
+    font-weight: 600;
+    margin-bottom: 0.9rem;
+}
+.boxrounded h5 {
+    font-weight: 400;
+    margin-bottom: .3rem;
+    text-align: center;
+}
+.boxrounded .submit{
+    height: 40px;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 0.4rem;
+    border: 1px solid black;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+.boxrounded .voirProfil{
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-decoration: none;
+    margin-top: 1.555rem;
+}
+.voirProfil button{
+    color: white;
+    background-color: #1896c0;
+    font-weight: 500;
+    transition: .3s all ease-in-out;
+}
+
+.voirProfil button:hover{
+    color: white;
+    background-color: #046383;
+    font-weight: 500;
+}
+
+body h2{
+    text-align: center;
+    color: #007ca5;
+    width: 100%;
+
+    font-family: 500;
+}
+
+.infocan{
+    height: auto;
+    width: 100%;
+}
+.imagesCpntinaer{
+    height: 120px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+.sjfdvocx{
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    border: 2px solid #007ca5;
+}
+
+.jackdaniel{
+    min-height:500px;
+    width: 450px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top:2.5rem;
+}
+.rowInfoos{
+    min-height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 0.2rem;
+    justify-content: space-between;
+}
+.rowInfoos .j{
+    font-weight: 600;
+}
+.rowInfoos span{
+    width: 100%;
+    background-color: #dbf6ff  ;
+    margin: 0 auto;
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 0;
+    text-align: center;
+    padding: .2rem .666rem;
+}
+.contacter{
+    height:39px;
+    width: 390px;
+    border: 1px solid #046383;
+    background-color: #37b7e1;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    margin-top: 2rem;
+    border-radius: 5rem;
+    cursor: pointer;
+}
+.rowInfoos2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rowInfoos.storngjjj{
+    font-weight: 600;
+    color: black;
+}
+.cva{
+    padding: 0.4em 1rem;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: .34rem;
+    cursor: pointer;
+    transition: .24s all ease-in-out;
+}
+.cva:hover{
+    background-color: rgb(126, 126, 126);
+    color: whi;
+}
+.rowInfoos .zxs{
+    font-weight: 600;
+}
+
+
+
+.popUp{
+    position: fixed;
+    z-index: 999999999;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: .2s all ease-in-out;
+    background-color: rgba(0, 0, 0, 0.777);
+}
+.showPopUp{
+    visibility: visible;
+    opacity: 1;
+}
+.container{
+    height: 500px;
+    width: 500px;
+    background-color: white;
+    border-radius: 0.555rem;
+    position: relative;
+}
+.closeContainer{
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.btnCompetence{
+    height: 30px;
+    width: auto;
+    padding: 0.3rem 0.666rem;
+}
+
+.containerCompp button{
+    border: 1px solid #1896c0;
+    margin: 0.3rem;
+    outline: none;
+    border-radius: 0.2rem;
+    height: 33px;
+    color: black;
+    cursor: pointer;
+    padding: 0.3rem 0.6666rem;
+
+    font-weight: 500;
+    transition: .2s all ease-in-out;
+    background-color: white;
+}
+.containerCompp .clicked{
+    color: white;
+    transition: .2s all ease-in-out;
+    padding: 0.3rem 0.6666rem;
+    border: 1px solid #1896c0;
+    margin: 0.3rem;
+    cursor: pointer;
+    outline: none;
+    border-radius: 0.2rem;
+    height: 33px;
+    background-color: #1896c0;
+}
+.containerCompp{
+    width: 450px;
+    margin: 0 auto;
+    height: 400px;
+    overflow-y: scroll;
+    margin-top: 2rem;
+
+}
+.container .jz  .submiiit{
+    
+    color: white;
+    transition: .2s all ease-in-out;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #1896c0;
+    cursor: pointer;
+    outline: none;
+    border-radius: 0.2rem;
+    height: 40px;
+    width: 300px;
+    background-color: #1896c0;
+    border-radius: 0.33rem;
+    
+}
+.jz{
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.customize{
+    color: white;
+    transition: .2s all ease-in-out;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #1896c0;
+    cursor: pointer;
+    outline: none;
+    border-radius: 0.2rem;
+    height: 40px;
+    width: 300px;
+    background-color: #1896c0;
+    border-radius: 0.33rem;
+}
+.containerxxx .bouttons .disconnect2{
+    background-color: #004a63;
+    margin-right: 1rem;
+}
+.disconnect2 a{
+    color: white;
+    text-decoration: none;
+}
+
+.boxrounded  .active{
+    background-color: limegreen;
+    width: 77px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 1rem;
+    border-radius: 4rem;
+    display: flex;
+    font-size: 15px;
+}
+.boxrounded  .notactive{
+    background-color: red;
+    width: 77px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 1rem;
+    border-radius: 4rem;
+    color: white;
+    display: flex;
+    font-size: 15px;
+}
+.boxrounded .suqdfoic{
+    border: 1px solid #1896c0;
+    margin: 0.3rem;
+    outline: none;
+    color: white;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    border-radius: 0.2rem;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0.3rem 0.6666rem;
+    background-color: #1896c0;
+    font-weight: 500;
+    transition: .2s all ease-in-out;
+    color: white;
+}
+.boxrounded .suqdfoic a{
+    text-decoration: none;
+    color: white;
+}
+.boxrounded2{
+    min-height:333px ;
+}
+.boxrounded p{
+    margin: 0 auto;
+    text-align: center;
+}
+.boxrounded .sqduiwvcx{
+    color: red;
+    margin: 0 auto;
+    margin-top: 1rem;
+    text-align: center;
+}
+.boxrounded .izhqd{
+    background-color: red;
+    color: white;
+    margin: 0 auto;
+    margin-top: 1rem;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5rem;
+
+}

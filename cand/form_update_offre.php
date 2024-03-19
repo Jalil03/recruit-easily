@@ -98,8 +98,7 @@
 </div>
        
     </form>
-    <img src="avatar3.png"  class="b " alt="">
-    
+  
 </main>
 </body>
 </html>

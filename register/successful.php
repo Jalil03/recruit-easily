@@ -1,3 +1,6 @@
+<!-- Apres que le candidat a enterer ces nformations et choisit les competences priaire et secndaire on va le direger vers cette page 
+form-candidat -> register-cand -> up-cand -> register-cand-comp -> successful -> dashboard (cand)
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

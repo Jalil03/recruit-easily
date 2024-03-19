@@ -9,13 +9,24 @@ if(!isset($_SESSION['id'])){
 // Pour se deconnecter :  
 $rq=$PDO->prepare('select * from candidat,domaine,poste WHERE poste.id_poste=candidat.id_poste and candidat.id_domaine=domaine.id_domaine and id_candidat=?');
 $rq->execute(array($_SESSION['id']));
+
+// recuperation du details de l'user 
+
 $rq1=$PDO->prepare('select * from candidat,comp_candidat,competences,domaine_comp WHERE
 domaine_comp.id_comp=comp_candidat.id_comp and
 candidat.id_candidat=comp_candidat.id_candidat and competences.id_comp=comp_candidat.id_comp and candidat.id_candidat=? and domaine_comp.id_domaine=?');
+
+// recuperation competences candidats
+
 $rq2=$PDO->prepare('SELECT * from comp_candidat,competences WHERE comp_candidat.id_comp=competences.id_comp and comp_candidat.id_candidat=? and nom_comp not in(
   select nom_comp from comp_candidat,competences,domaine_comp WHERE
   domaine_comp.id_comp=comp_candidat.id_comp
   and competences.id_comp=comp_candidat.id_comp and comp_candidat.id_candidat=? and domaine_comp.id_domaine=?)');
+
+//les comps secondaire qui ne sont pas lier a aucun domaine 
+
+
+// pour ce deconnecter 
 if(isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="logout")
 {
  // on arrête la session (voir la définition de la fonction dans le fichier util.php)
@@ -29,15 +40,53 @@ $rq1->execute(array($_SESSION['id'],$ligne['id_domaine']));
 $rq2->execute(array($_SESSION['id'],$_SESSION['id'],$ligne['id_domaine']));
 $compro=$rq1->fetchall();
 $comps=$rq2->fetchAll();
+
 $rq3=$PDO->prepare('select * from experience where id_candi=?');
 $rq3->execute(array($_SESSION['id']));
+
+//Récupération de l'expérience professionnelle de l'utilisateur
+
 $exp=$rq3->fetchAll();
 $rq3=$PDO->prepare('select * from education where id_candi=?');
 $rq3->execute(array($_SESSION['id']));
 $edu=$rq3->fetchAll();
 
+/* Récupération de l'éducation de l'utilisateur  */
+
+// On cherche le nom du user pour l'afficher
+if($_SESSION['type_user'] == 2)
+{
+  $rq = "select nom, prenom FROM candidat WHERE id_candidat = :id";
+  $stmt = $PDO->prepare($rq);
+  $stmt->bindParam(':id', $_SESSION['id']);
+  $stmt->execute();
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ if ($row !== false) {
+    $nomPseudo = $row['nom']." ";
+    $prenomPseudo = $row['prenom'];
+  } else {
+   $nomPseudo="";
+   $prenomPseudo="";
+  }
+}
+
+else {
+$rq="select nom_societe FROM recruteur WHERE id_recruteur = :id";
+$stmt = $PDO->prepare($rq);
+  $stmt->bindParam(':id', $_SESSION['id']);
+  $stmt->execute();
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  if ($row !== false) {
+    $nomPseudo = $row['nom_societe'];
+    $prenomPseudo = "";
+  } else {
+   $nomPseudo="";
+   $prenomPseudo="";
+  }
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,97 +97,34 @@ $edu=$rq3->fetchAll();
     <link  rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <style>
-       .box{
-    padding: 10px 30px;
-    height: auto;
-    border-radius: 30px;
-    margin: 5px;
-    transition: 0.15s;
-    background: rgba(255,255,255,0.5);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid #050642;
-     }
-     .td2{
-    width: 400;
-    
-}
-    .logo{
-      margin-top:10px;
-      margin-left:60px;
-    }
-    .infocan{
-       
-        padding: 1px 10px;
-        margin: 10px auto; 
-        background-color: white; 
-        overflow: hidden;
-        width: 90%;
-        height: 300px;
-        
-    }
-   .infocan img{
-    float: left;
-    position: relative;
-    top: 30px;
-    
-   }
-   .titre{
-    font-size: 30px;
-    font-family: Roboto-Black;
-    
-   }
-   
-   .infocan table{
-    padding: 10px;
-   }
-   .infocan img{
-    padding: 10px;
-   }
-   table td{
-    width: 300px;
-    padding: 10px 5px;
-   }
-   .con{
-   display: flex;
-   justify-content: center;
-   position: relative;
-   left: 130px;
-   color: white; 
-}
-.con:hover{
-    letter-spacing: 0.5px;
-    transition: 0.5s;
-}
-.divt{
-    margin: 10px auto; 
-    width: 90%;
-    margin-top: 0;
-    margin-bottom: 40px;
-}
-.cva{
-    color: blue;
-}
-.cva:hover{
-    color: blueviolet;
-    text-decoration: underline;
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+       
+       
+        .titre {
+           
+    text-align: center;
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #050642;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    font-family: 'Arial', sans-serif; /* Police de caractères personnalisée */
 }
-.infocanm{
-    
-    padding: 1px 10px;
-        margin: 10px auto; 
-        background-color: white; 
-        overflow: hidden;
-        width: 90%;
-        height: auto;
-}
-.infocanm div{
-    padding: 2px 4px;
-    
-}
-      /*pour les notificatios*/
+
+
+              /*pour les notificatios*/
      .dropdown {
   position: relative;
   display: inline-block;
@@ -154,11 +140,131 @@ $edu=$rq3->fetchAll();
   z-index: 1;
 }
 
+        .tab {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
 
-li{
-  list-style: none;
-}
-.a{
+        .tab th,
+        .tab td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab th {
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: left;
+        }
+
+        .tab td {
+            color: #555;
+        }
+
+        .tab td:first-child {
+            font-weight: bold;
+        }
+
+        .cva {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cva:hover {
+            background-color: #0056b3;
+        }
+
+        .details-section {
+            margin-top: 30px;
+        }
+
+        .details-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .skills-item {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 20px;
+        }
+
+        .experience-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-left: 5px solid #007bff;
+        }
+
+        .experience-item h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .experience-item p {
+            margin: 0;
+            color: #666;
+        }
+
+        .education-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #00d8a0;
+        }
+
+        .education-item h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .education-item p {
+            margin: 0;
+            color: #666;
+        }
+
+        
+
+        .edit-profile-button {
+            display: block;
+            margin: 0 650px;
+            padding: 10px 20px;
+            background-color: #050642;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-profile-button:hover {
+            background-color: #0056b3;
+        }
+        
+  .infocan img{
+   float: left;
+   position: relative;
+   top: 30px;
+   
+  }
+  
+  .a{
   background-color: red;
   color: white;
   padding: 2px 4px;
@@ -169,22 +275,78 @@ li{
   right:3px;
  
 }
-.b{
- color:red;
-}
-
+ /* style pr notification */
   
 
-    
+ .dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+#dropdown {
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content li {
+    padding: 10px;
+}
+
+.dropdown-content li:hover {
+    background-color: #ddd;
+}
+
+.dropdown-content hr {
+    margin: 5px 0;
+}
+
+
+.badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 5px 8px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        /*fin style des notifications */
+
+#jl2{
+         color: dodgerblue;
+         background-color: dodgerblue;
+      }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    
     </style>
     <title>Document</title>
 </head>
 <body>
+
     <div class="container">
-        <div class="logo">
-           <img src="../images/logoW.jpg" alt="logo du site techjob" width="100px" height="auto">
+
+    
+        <div class="profile-image">
+       
+           <img src="../images/logoW.jpg" alt="logo du site " width="100px" height="auto">
+          
         </div>
+        
         <div class="navigation">
            <p><a href="dashboard.php">Candidats</a></p>
            <p><a href="Offers.php">Offers</a></p>
@@ -192,47 +354,44 @@ li{
            <!-- La partie qui va contenir les notifications  pour les candidats ! -->
        <?php if(!is_recruteur()): ?>
 
-<?php
- $sql = $PDO->prepare('SELECT * FROM msg  WHERE status = 0 and id_candidat=?');
- $sql->execute([$_SESSION['id']]);
- $count = $sql->rowCount();
- 
-   ?>
-   <div class="dropdown" >
-   <a   id="dropdown" href="#"  role="button" >
-          <img src="eml.png"  alt=""><span  class="a"><?= $count ;?></span>
-        
-</a>
-          <ul id="dp" class="dropdown-content">
-        <?php 
-       $sql1 = $PDO->prepare('SELECT * FROM msg WHERE status = 0 and id_candidat=?');
-       $sql1->execute([$_SESSION['id']]);
-       if ($sql1->rowCount() > 0) {
-           while ($result = $sql1->fetch()) {
-               echo '<li ><a class="dropdown-item text-primary font-weight-bold" href="read.php?id=' . $result['id_message'] . '">' . $result['messages'] . '</a></li>';
-               echo '<li><hr class="dropdown-divider"></li>';
-           }
-       }
-       
-       else{
-           echo '<li><a class="dropdown-item text-danger  b " href="#"><img src="sad.png">  Sorry! No Messages</a> </li>';
-       }
-       ?> 
-      </ul>
-      
-      </div >
+        <?php
+$sql = $PDO->prepare('SELECT * FROM msg WHERE status = 0 and id_candidat=?');
+$sql->execute([$_SESSION['id']]);
+$count = $sql->rowCount();
+?>
+<div class="dropdown">
+    <a id="dropdown" href="#" role="button" onclick="toggleDropdown()">
+        <i class="fas fa-bell"></i> <!-- Icône de notification -->
+        <?php if ($count > 0): ?>
+            <span class="badge"><?= $count; ?></span> <!-- Badge dynamique pour afficher le nombre de notifications -->
+        <?php endif; ?>
+    </a>
+    <ul id="dp" class="dropdown-content">
+        <?php
+        if ($sql->rowCount() > 0) {
+            while ($result = $sql->fetch()) {
+                echo '<a class="dropdown-item text-primary font-weight-bold" href="read.php?id=' . $result['id_message'] . '">' . $result['messages'] . '</a>';
+                echo '<li><hr class="dropdown-divider"></li>';
+            }
+        } else {
+            echo '<li><a class="dropdown-item text-danger b" href="#">  Désolé! Aucune nouvelle notification<a style="color:blue;" href="read.php">Voir les messages<a></a></li>';
+        }
+        ?>
+    </ul>
+</div>
  <?php endif; ?> 
          <!-- La fin  de partie qui concerne les notificatios des candidats  ! -->
         </div>
         <div class="bouttons">
-           <?php if(is_recruteur()): ?>
-              <button class="post" name='poster'><a href="form_offer.php">Post an offer</a></button>
-              <?php endif; ?>
-              <!--  Si l'utilisateur veut se déconnecter on va le redirectionner vers login.php 
-              on précise le champ action=logout (le traitement est dans la partie en haut) -->
-              <button><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
-           </div>
-        </div>
+         <p style="display:inline; font-size:larger; margin-right:20px;"><strong><?= $nomPseudo ?><?= $prenomPseudo ?></strong></p>
+            <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1): ?>
+               <button class="post" name='poster'><a href="form_offer.php">Post an offer</a></button>
+            <?php endif; ?>
+            <!--  Si l'utilisateur veut se déconnecter on va le redirectionner vers login.php 
+            on précise le champ action=logout (le traitement est dans la partie en haut) -->
+            <button id="jl2"><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
+         </div>
+       </div>
         <div class="infocan">
             <?php if(!empty($ligne['photo'])): ?>
              <?php 
@@ -243,80 +402,68 @@ li{
              <?php else: ?>
              <img src="user-profile-man.jpg" alt="" srcset="">
               <?php endif; ?>
-           
-            <table >
-                <tr>
-                    <td colspan="2" class="titre">Your profile</td>  
-                </tr>
-                <tr>
-                  <td><strong>Nom : </strong><?=$ligne['nom']?></td>
-                  <td class="td2"><strong>Prenom : </strong><?=$ligne['prenom']?></td>
-                </tr>
-                <tr>
-                    <td ><strong>Telephone : </strong><?=$ligne['num_tel']?></td>
-                    
-                    <td class="td2"><strong>Email : </strong><?=$ligne['email_contact']?></td>
-                </tr>
-                <tr>
-                    <td><strong>Domaine : </strong><?=$ligne['nom_domaine']?></td>
-                    <td class="td2"><strong>Poste : </strong><?=$ligne['nom_poste']?></td>
-                </tr>
-                <tr>
-                    <td><strong>CV : </strong><a class="cva" href="cv/<?=$ligne['cv']?>" download="<?=$ligne['nom'].' cv'?>">Télécharger le CV</a></td>
-                    
-                </tr>
-              </table>
-              <button class="con"><a href="form_update_can.php">Modifier</a></button>
-        </div>
-        <div class="divt">
-        <h2>Détails du profil
-        </h2>
-        </div>
+    
+              <div class="titre">Your Profile</div>
         
-        <div class="infocanm">
-         <div>
-         <h2>Primary skill : </h2>
-         <p>
-         <?php foreach ($compro as $key => $comp): ?>
-                    <span><?=$comp['nom_comp']?></span>
-                   <?php if($key !=(count($compro) - 1)):?>
-                   ,
-                   <?php endif ?> 
-                   <?php endforeach?></p>
-         </div>
-         <div>
-            <h2> Secondary Skill: </h2>
-            <p>
-         <?php foreach ($comps as $key => $comp): ?>
-                    <span><?=$comp['nom_comp']?></span>
-                   <?php if($key !=(count($comps) - 1)):?>
-                   ,
-                   <?php endif ?> 
-                   <?php endforeach?></p>
+            <table class="tab">
+            <tr>
+                <th>Nom:</th>
+                <td><?=$ligne['nom']?></td>
+            </tr>
+            <tr>
+                <th>Prénom:</th>
+                <td><?=$ligne['prenom']?></td>
+            </tr>
+            <tr>
+                <th>Téléphone:</th>
+                <td><?=$ligne['num_tel']?></td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td><?=$ligne['email_contact']?></td>
+            </tr>
+            <tr>
+                <th>Domaine:</th>
+                <td><?=$ligne['nom_domaine']?></td>
+            </tr>
+            <tr>
+                <th>Poste:</th>
+                <td><?=$ligne['nom_poste']?></td>
+            </tr>
+            <tr>
+                <th>CV:</th>
+                <td><a class="cva" href="cv/<?=$ligne['cv']?>" download="<?=$ligne['nom'].'_cv'?>">Télécharger le CV</a></td>
+            </tr>
+        </table>
+        
+        <div class="details-section">
+            <h2>Compétences :</h2>
+            <div class="skills-list">
+                <?php foreach ($compro as $comp) : ?>
+                    <div class="skills-item"><?=$comp['nom_comp']?></div>
+                <?php endforeach; ?>
             </div>
-        <div>
-                <h2>Professional experience : </h2>
-                <?php foreach ($exp as $exps): ?>
-                <strong><?=$exps['description']?></strong>
-                <p><?=$exps['nom_entreprise']?></p>
-                <p><?=$exps['date_debut']?>/<?=$exps['date_fin']?></p>
-                <?php endforeach?>
+            <h2>Expérience professionnelle :</h2>
+            <?php foreach ($exp as $exps) : ?>
+                <div class="experience-item">
+                    <h3><?=$exps['description']?></h3>
+                    <p><?=$exps['nom_entreprise']?></p>
+                    <p><?=$exps['date_debut']?> - <?=$exps['date_fin']?></p>
                 </div>
-        <div>
-        <h2>Formation : </h2>
-                    <?php foreach ($edu as $edus): ?>
-                    <strong><?=$edus['options'] .' '.$edus['filiere']?></strong>
-                    <p><?=$edus['nom_ecole']?></p>
-                    <p><?=$edus['date_debut']?>/
-                    
-                    <?php if(!empty($edus['date_fin'])):?>
-                    <?=$edus['date_fin']?></p>
-                    <?php endif?>
-                    <?php endforeach?>
-                    </div>
-        </div>
-        
-
+            <?php endforeach; ?>
+            
+                     <h2>Formation :</h2>
+                     <?php foreach ($edu as $edus) : ?>
+                         <div class="education-item">
+                             <h3><?=$edus['options']?> <?=$edus['filiere']?></h3>
+                             <p><?=$edus['nom_ecole']?></p>
+                             <p><?=$edus['date_debut']?> - <?php if(!empty($edus['date_fin'])) { echo $edus['date_fin']; } ?></p>
+                         </div>
+                     <?php endforeach; ?>
+                 </div>
+             </div>
+             <button id="jl2"><a href="form_update_can.php" >Update</a></button>
+            
     <script src="java.js"></script>     
         
 </body>

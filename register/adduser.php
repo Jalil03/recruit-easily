@@ -13,6 +13,7 @@ function valid_data($donnee)
   $donnee=stripslashes($donnee);
   $donnee=htmlspecialchars($donnee);
   return $donnee;
+  
 }
     //cette variable pour ajouter les messages d'erreur	
     $message='';
@@ -69,4 +70,9 @@ if(isset($_POST['submit']))
       }
   }
 }
+
+
+// cette page est utiliser lorsque le candidat fait le sign in pour la premiere fois 
+
+
 ?>

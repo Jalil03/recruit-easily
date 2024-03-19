@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('job.jpg');
+    background-size: cover; 
+    background-position: center; 
+}
+
+.container{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.container .logo {
+    height: 59px;
+    width: 59px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    overflow: hidden;
+    color: #25a4cf;
+}
+.container .logo img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.conteneur {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 200px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(55, 183, 225, 0.5);
+    padding: 100px;
+    border-radius: .4rem;
+    
+    transition: box-shadow 0.3s ease;
+    box-shadow: rgba(1, 2, 58, 0.712) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+
+.col:hover {
+    box-shadow: 0 8px 16px rgb(63, 247, 247);
+}
+
+h2 {
+    font-size: 30px;
+    color: #050642;
+    font-family: cursive;
+}
+
+input[type="text"],
+input[type="password"] {
+    margin-top: 10px;
+    padding: 15px;
+    width: 350px;
+    border-radius: .4rem;
+    border: .4rem solid #ffffff;
+    font-size: 20px;
+    font-family: cursive;
+}
+
+.button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2dcadf;
+    border: none;
+    border-radius: .4rem;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: cursive;
+}
+
+.button:hover {
+    background-color: #032b30;
+}
+
+.acc {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #29e4eb;
+}
+
+.acc:hover {
+    text-decoration: none;
+}
+.acc {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #2dcadf;
+    border: none;
+    border-radius: .4rem;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    cursor: pointer;}
+
+.acc:hover {
+    text-decoration: none;
+    background-color: #032b30
+}
+
+.acc a {
+    color: #29e4eb;
+    text-decoration: none;
+}
+
+.acc a:hover {
+    text-decoration: none;
+}
+.field{
+    font-size: 20px;
+    color: #050642;
+    font-family: cursive;
+
+}

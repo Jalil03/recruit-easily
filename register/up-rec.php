@@ -1,10 +1,12 @@
 <?php
 
+// pour que le recruteur entre son image 
+
 session_start();
 
-$DB_DSN="mysql:host=localhost;dbname=techjob";
-$DB_USER="root";
-$DB_PASS="";
+
+include('database.php'); 
+
 try
 {
     // la partie de la connexion
@@ -78,37 +80,10 @@ if (isset($_FILES['file']) && isset($_POST['submit']))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../stylecandidat.css">
     
     <title>Document</title>
-    <style>
-        .col1{
-	background-color:rgb(255, 255, 255);
-	height: auto;
-	padding:10px 20px;
-	border-radius: 20px;
-	box-shadow: 2px 2px 8px gray;
-	border: 2px solid transparent;	
-    width: 300px;
-    height: 450px;
-    text-align:center;
-    margin-left:60px;
-}
-.btn{
-    height: 35px;
-    background-color:#050642;
-
-}
-.col1:hover{
-    border:1px solid #050642;
-}
-.cc{
-position:relative;
-bottom:440px;
-left:210px;
-height:390px;
-}
-        </style>
+    
 </head>
 <body>
 <nav id="navb" class="navbar navbar-expand-lg " >
@@ -119,16 +94,61 @@ height:390px;
    
    <div class="container">
   
-    <div class="  col1">
-    <form action="up-rec.php" method="post" enctype="multipart/form-data">
-        <img src="add-image-rec.png" alt="">
-        <input type="file" name="file" >
-        <input type="submit" name="submit"  class="btn" value="Upload">
-    </form>
+    <div class="  col">
+    <form action="up-can.php" method="post" enctype="multipart/form-data">
+   
+   <label for="nom_du_fichier">
+       <img id="previewImage" src="../image.png" alt="Upload Image">
+   </label>
+      <input type="file" name="file" id="nom_du_fichier" accept="image/*" style="display: none;">
+      <input type="submit" name="submit" class="btn" value="Upload">
+</form>
     <a href="../cand/login.php"> <button class="btn">Skip>></button></a>
     </div>   
     </div>
-    <img src="avatar4.png"  class="cc" alt=""> 
+    <script>
+    
+    document.getElementById('nom_du_fichier').addEventListener('change', function(event) {
+        var input = event.target;
+        var reader = new FileReader();
+
+        reader.onload = function(){
+            var img = document.getElementById('previewImage');
+            img.src = reader.result;
+            var MAX_WIDTH = 356; 
+            var MAX_HEIGHT = 356; 
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            var originalImage = new Image();
+            originalImage.src = reader.result;
+
+            originalImage.onload = function() {
+                var width = originalImage.width;
+                var height = originalImage.height;
+
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.drawImage(originalImage, 0, 0, width, height);
+                img.src = canvas.toDataURL('image/jpeg');
+            };
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    });
+</script>
+    
    
 </body>
 </html>

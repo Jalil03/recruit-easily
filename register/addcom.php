@@ -1,4 +1,7 @@
 <?php
+
+// cette page est pour le score des candidats
+
 session_start();
 
 // Déclarer un tableau vide
@@ -12,6 +15,9 @@ $tabnameS = array();
 $taboptionE = array();
 $taboptions = array();
 $tabexp= array();
+
+
+// pour ces options ils sont de l'experience
 
 if(isset($_POST['options'])){
     foreach ($_POST['options'] as $v){
@@ -44,14 +50,14 @@ if(isset($_POST['dateE'])){
         $tabdateE[] = $v;
     }
 }
-// Parcourir le tableau $_POST['optionE'] et ajouter chaque valeur au tableau
+// Parcourir le tableau $_POST['optionE'] et ajouter chaque valeur au tableau , options d'education
 if(isset($_POST['optionE'])){
     foreach ($_POST['optionE'] as $v){
         $taboptionE[] = $v;
     }
 }
 
-
+// dated , datef pour l'experience , dateE , dateS pour l'education
 
 // Parcourir le tableau $_POST['dated'] et ajouter chaque valeur au tableau
 if(isset($_POST['dated'])){
@@ -112,6 +118,11 @@ if(isset($_POST['expr'])){
     
     }
 
+// on a inserer les donnes dans experiene , education comp_cand maintenant en passe au alcul du score 
+
+// pour les competences principales on donne 10 points , les secondaires 5 pts  , les optoins de ex si work 4pts si intership 2 pts , pour l'education 3 pts 
+
+
 
 
 $score=0;
@@ -121,11 +132,13 @@ if(isset($_POST['competence'])){
      $score+=10;
         }
     }
+
 if(isset($_POST['aucompetence'])){
         foreach ($_POST['aucompetence'] as $v){
      $score+=5;
         }
     }
+
     if(isset($_POST['options'])){
         foreach ($_POST['options'] as $v){
             if($v=='WORK')
@@ -136,12 +149,31 @@ if(isset($_POST['aucompetence'])){
       
         }
     }
-    if(isset($_POST['educ'])){
-        foreach ($_POST['educ'] as $v){
-      $score+=3;
-      
+
+// points pour les options d'education (on ne peut pas choisir les options si on ne remplis pas l'education first)
+
+if(isset($_POST['educ'])){
+    // Si des champs d'éducation sont soumis, ajouter 3 points pour chaque champ
+    foreach ($_POST['educ'] as $v){
+        $score += 3;
+    }
+    // Ajouter des points pour les options d'éducation uniquement si des champs d'éducation ont été remplis
+    if(isset($_POST['optionE'])){
+        foreach ($_POST['optionE'] as $option){
+            if($option == 'bac')
+                $score += 3;
+            elseif($option == 'deug' || $option == 'lst')
+                $score += 2;
+            elseif($option == 'master')
+                $score += 4;
+            elseif($option == 'cycle')
+                $score += 3;
+            elseif($option == 'phd')
+                $score += 5;
         }
     }
+}
+
     if(isset($_POST['datef']) && isset($_POST['dated'])){
         for($i=0;$i<count($tabexp);$i++){
             $d1 = date_create($tabdated[$i]);

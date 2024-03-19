@@ -22,7 +22,37 @@ $rq2=$PDO->prepare('select * from offre,recruteur,domaine,ville WHERE  ville.id_
 $rq2->execute(array($_SESSION['id']));
 $offres=$rq2->fetchAll();
 
+// On cherche le nom du user pour l'afficher
+if($_SESSION['type_user'] == 2)
+{
+  $rq = "select nom, prenom FROM candidat WHERE id_candidat = :id";
+  $stmt = $PDO->prepare($rq);
+  $stmt->bindParam(':id', $_SESSION['id']);
+  $stmt->execute();
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ if ($row !== false) {
+    $nomPseudo = $row['nom']." ";
+    $prenomPseudo = $row['prenom'];
+  } else {
+   $nomPseudo="";
+   $prenomPseudo="";
+  }
+}
 
+else {
+$rq="select nom_societe FROM recruteur WHERE id_recruteur = :id";
+$stmt = $PDO->prepare($rq);
+  $stmt->bindParam(':id', $_SESSION['id']);
+  $stmt->execute();
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  if ($row !== false) {
+    $nomPseudo = $row['nom_societe'];
+    $prenomPseudo = "";
+  } else {
+   $nomPseudo="";
+   $prenomPseudo="";
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,49 +64,88 @@ $offres=$rq2->fetchAll();
     <link rel="stylesheet" href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <style>
+
+
+      #jl{
+         color: lightblue;
+         background-color: lightblue;
+      }
+      #jl2{
+         color: dodgerblue;
+         background-color: dodgerblue;
+      }
+       body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+    .tab {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .tab th,
+        .tab td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab th {
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: left;
+        }
+
+        .tab td {
+            color: #555;
+        }
+
+        .tab td:first-child {
+            font-weight: bold;
+        }
+
    
-   .infocan{
-       
-       padding: 1px 10px;
-       margin: 10px auto; 
-       background-color: white; 
-       overflow: hidden;
-       width: 90%;
-       height: 250px;
-       
-   }
   .infocan img{
    float: left;
    position: relative;
-   top: 30px;
+   top: 0px;
    
   }
   .titre{
-   font-size: 30px;
-   font-family: Roboto-Black;
-   
-  }
   
-  .infocan table{
-   padding: 10px;
-  }
-  .infocan img{
-   padding: 10px;
-  }
-  table td{
-   width: 340px;
-   padding: 10px 5px;
-  }
-  .mod{
-  display: flex;
-  justify-content: center;
-  position: relative;
-  left: 130px;
-  color: white; 
-}
-.mod:hover{
-   letter-spacing: 0.5px;
-   transition: 0.5s;
+           
+           text-align: center;
+           font-size: 36px;
+           color: #fff;
+           margin-bottom: 20px;
+           padding: 20px;
+           background-color: #050642;
+           border-radius: 10px;
+           box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+           font-family: 'Arial', sans-serif; /* Police de caractères personnalisée */
+       }
+       
+  
+  
+  
+ 
+  .mod{ 
+            display: block;
+            margin: 0 550px;
+            padding: 10px 20px;
+            background-color:#050642;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+ 
+.mod:hover{background-color: #0056b3;
+   
 }
 .divt{
    margin: 10px auto; 
@@ -98,10 +167,7 @@ $offres=$rq2->fetchAll();
    padding: 2px 4px;
    
 }
-.td2{
-   width: 400px;
-   
-}
+
 .cont{
        color: #14b1bb !important;
    }
@@ -110,9 +176,7 @@ $offres=$rq2->fetchAll();
        text-decoration: underline !important;
    }
   
-    
-    
-
+   
     </style>
     <link  rel="stylesheet" href="style_de_Offers.css">
     <title>Document</title>
@@ -120,7 +184,7 @@ $offres=$rq2->fetchAll();
 <body>
     <div class="container">
         <div class="logo">
-           <img src="../images/logoW.jpg" alt="logo du site techjob" width="100px" height="auto">
+           <img src="../images/logoW.jpg" alt="logo du site " width="100px" height="auto">
         </div>
         <div class="navigation">
            <p><a href="dashboard.php">Candidats</a></p>
@@ -128,14 +192,15 @@ $offres=$rq2->fetchAll();
            <p><a href="#">Profile</a></p>
         </div>
         <div class="bouttons">
-           <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1): ?>
-              <button class="post" name='poster'><a href="form_offer.php">Post an offer</a></button>
-              <?php endif; ?>
-              <!--  Si l'utilisateur veut se déconnecter on va le redirectionner vers login.php 
-              on précise le champ action=logout (le traitement est dans la partie en haut) -->
-              <button><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
-           </div>
-        </div>
+         <p style="display:inline; font-size:larger; margin-right:20px;"><strong><?= $nomPseudo ?><?= $prenomPseudo ?></strong></p>
+            <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1): ?>
+               <button id="jl2" class="post" name='poster'><a href="form_offer.php">Post an offer</a></button>
+            <?php endif; ?>
+            <!--  Si l'utilisateur veut se déconnecter on va le redirectionner vers login.php 
+            on précise le champ action=logout (le traitement est dans la partie en haut) -->
+            <button id="jl2"><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
+         </div>
+       </div>
         <div class="infocan">
             <!-- La partie qui va contenir les images   ! -->
            <?php if(!empty($info['photo'])): ?>
@@ -148,35 +213,41 @@ $offres=$rq2->fetchAll();
                 <img src="../images/logoW.jpg" alt="" srcset="">
               <?php endif; ?>
             <!-- fin de la partie qui traite les images  ! -->
-           
-            <table >
-                <tr>
-                    <td colspan="2" class="titre">Your profile</td>  
-                </tr>
-                <tr>
-                  <td><strong>Company name: </strong><?=$info['nom_societe'] ?></td>
-                  <td class="td2"><strong>Telephone : </strong><?=$info['num_tel'] ?></td>
-                </tr>
-                <tr>
-                    <td ><strong>Company Email : </strong><?=$info['email_societe'] ?></td>
-                    
-                    <td><strong>Web Site : </strong><a class="cont" href="<?=$info['site'] ?>"><?=$info['site'] ?></a></td>
+            <div class="titre">Your Profile</div>
+          
+            <table class="tab">
+            <tr>
+            <th>Company name:</th>
+                <td><?=$info['nom_societe']?></td>
+            </tr>
+            <tr>
+            <th>Telephone :</th>
+                <td><?=$info['num_tel']?></td>
+            </tr>
+           <tr>
+             <th>Company Email :</th>
+                <td><?=$info['email_societe']?></td>
+             </tr>
+             <tr>        
+             <th>Web Site :</th>
+   
+                    <td><a class="cont" href="<?=$info['site'] ?>"><?=$info['site'] ?></a></td>
            </tr>
-                </tr>
+                
               </table>
-              <button class="mod"><a href="from_update_rec.php">Modifier</a></button>
+            
         </div>
         <div class="divt">
-        <h2>Your offers
-        </h2>
+         <div class="titre">Your offers</div>
         </div>
+        
         <div class="boxContainer">
  <?php if (!empty($offres)) :?> <!-- Si la requête renvoie des enregistrements on va les affichers -->
          <?php foreach ($offres as $offre): ?>
     <div class="box rounded">
          <div id="cs" class="text-center img2">
             <div class="con">
-             <img src="../images/logoW.jpg" class="logo" alt="logo du site techjob" width="100px" height="auto">
+             <img src="../images/logoW.jpg" class="logo" alt="logo du site Reasily" width="100px" height="auto">
              <!-- si l'offre est active ( la fonction active() est définie dans util.php) -->
                <?php if(active($offre['is_active'])): ?>
                <div class="active" style='background-color: darkgreen;'>is active</div> 
@@ -190,7 +261,7 @@ $offres=$rq2->fetchAll();
              <h5 class="mt-3">City: <?= $offre['nom_ville']?> </h5>
              <p class="mt-3"><strong></strong> Offer type:<?= $offre['offre_type'] ?></p>
          
-          <button name="submit" >
+          <button name="submit"  id="jl">
             <a  href="info_offre.php?id=<?=$offre['id_offre']?>" class="Contactez nous">Check offer</a>
           </button>
         
@@ -204,7 +275,7 @@ $offres=$rq2->fetchAll();
         <h2 class="nodata">No offers found</h2>
 <?php endif ?> 
         
-      
+<button id="jl2" class="mod"><a href="from_update_rec.php">Modifier</a></button>
 
         
         

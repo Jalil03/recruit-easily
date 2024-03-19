@@ -33,14 +33,13 @@ if($sql) echo" <script> alert('message send successfully');</script>";
 body{
     width: 90%;
     margin:auto;
-    background-image: linear-gradient(to top,#050642,#050642,#e94873,#050642,black);
+  background-color: white;
 }
 nav{
     background-color: white;
-    margin-top:10px;
-    border-radius:20px;
-    box-shadow: 5px 5px 10px gray;
-    margin:none;
+    
+   
+   
 }
 
  .a{
@@ -80,13 +79,7 @@ label{
     cursor: pointer;
 }
 
-.avatar{
-position:relative;
-bottom:400px;
-left:800px;
-height: 400px;
-width: 400px;
-}
+
  
  .b:hover{
   background-color: #050642 ;
@@ -96,16 +89,40 @@ width: 400px;
 text-align:center;
 margin-right: 45px;
 }
+
+
+.navbar-brand{
+    color:#37b7e1;
+}
+
+.logo{
+    position: relative;
+    left: 10px;
+}
+
 </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-
-<nav id="navb" class="navbar navbar-expand-lg "  >
-        <div class="container ">
-        <a class="navbar-brand" href="dashboard.php"><img  class="logo" src="../images/logoW.jpg" height="60px" width="100px" alt="link" class="img"></a>
-        </div>  
+<nav class="navbar  bg-white">
+    <a class="navbar-brand" href="#">
+      <img src="..\images\logoW.jpg" width="70" height="70" alt="link" class=" img rounded-circle" >
+       Recruit Easily
+    </a>
+    
 </nav>
+
+<div class=" container-fluid">
+    
+
+<div class="section-tittle text-center">
+                <h3 class="mt-5">"Unlock Potential, Embrace Talent: Send Offers, Shape Futures!"</h3>
+                </div>
+                <a href="dashboard.php"><button type="submit" class="btn btn-lg b rounded"> <i class="fa-solid fa-backward" style="color: #ffffff;"></i> BACK</button></a>
+  </div>
+
+
 
  <div class="container mt-5">
     <div class="a">
@@ -114,15 +131,33 @@ margin-right: 45px;
   <label for="floatingTextarea2" class="mt-5"> Enter your message</label>
   <textarea class=" mt-3" cols="50" rows="13" name="message" placeholder="Tape your message here" id="floatingTextarea2" style="height:100px"></textarea>
 </div>
-  <button type="submit" name="send" class="btn danger   b mt-5">Submit</button>
+  <button type="submit" name="send" class="btn danger b mt-5">Send <i class="fa-regular fa-paper-plane" style="color: #ffffff;"></i></button>
 </form>
 </div>
-  <div class=" cc ">
-    <a href="dashboard.php"><button  class="btn b ">BACK</button></a>
+  
+<br>
 </div>
-<div> <img src="../register/avatar3.png"  class="avatar"alt=""></div>
+    <div class="bg-white"> <br></div>
+<footer>
+
+
+<div class="footer-bottom">
+    <div class="footer-bottom">
+    <div class="row align-items-center">
+        <div class="col-md-3 text-center">
+            <a class="navbar-brand" href="#">
+                <img src="../images/logoW.jpg" width="70" height="70" alt="link" class="img rounded-circle">
+                Recruit Easily
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <p class="mb-2">Copyright ©2024 RECUIT EASILY. Designed by <span>ANAHA</span></p>
+        </div>
+    </div>
 </div>
-    
+
+    </div>
+</footer>
 
 </body>
 

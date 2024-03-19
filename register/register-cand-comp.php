@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> 
-    <link rel="stylesheet" href="style3.css">
-    <?php  include('database.php'); ?>
+    <link rel="stylesheet" href="../stylecandidatcomp.css">
+    <?php  include('database.php'); // cette page est la page ou on va demander au candidat de enterer ces informations , les competences primaire , secondaire , exp , education , on va utiliser la page addcom pour envoyer ces donnes et calculer le score , on va aussi utiliser le script java pour ajouter/supprimer des lignes   ?>
     <style>
        select  {
   background-color: transparent;
@@ -22,10 +22,11 @@
   width:100%;
   height:fit-content;
   padding:10px 0;
-  background-color:white;
+  background-color:#88d3dd;
  }
  .cont img{
   margin:0 50px;
+  border-radius: .4rem;
 }
  
     </style>
@@ -157,7 +158,7 @@
   </form>
   </div> 
  
-  <img  class="avatar" src="avatar5.png" alt="">
+  
   <script src="java.js"></script>
 </body>
 </html>

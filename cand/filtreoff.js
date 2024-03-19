@@ -25,3 +25,6 @@ slct3.onchange=function(){
     from.submit();
     localStorage.setItem('lastValue3r', slct3.value);
 }
+
+// meme logique que filtercan , mais la diff est que ce code est destinee au recruteur 
+

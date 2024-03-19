@@ -1,6 +1,6 @@
 <?php
 /*
-  Dans ce fichier on va définir un ensemble de fonction pour les réutiliser après dans d'autres fichiers :D 
+  Dans ce fichier on va définir un ensemble de fonction pour les réutiliser après dans d'autres fichiers ¡) 
   Il va donc contenir plusieur fonctions à réutiliser
 */
 include('database.php');
@@ -53,6 +53,9 @@ function active($act):bool{
 }
 
 //fonction qui va nous permettre de vérifier si l'offre est publiée par le recruteur ou non
+
+//Cette fonction vérifie si une offre spécifique ($id1) a été publiée par un recruteur spécifique ($id2). Si les deux identifiants correspondent, cela signifie que l'offre a été publiée par ce recruteur, donc la fonction renvoie true. Sinon, elle renvoie false.
+
 function verifier($id1,$id2):bool{
     if($id1==$id2)
     return true;
@@ -68,4 +71,8 @@ function postuler($id1,$id2):bool{
    if($rq->rowCount()!=0) return true;
    else return false;
 }
+
+//Cette fonction vérifie si un candidat a postulé à une offre spécifique ($id2) en vérifiant s'il existe une entrée dans la table 'postule' associant l'identifiant du candidat ($id1) à l'identifiant de l'offre ($id2). Si une entrée correspondante est trouvée, cela signifie que le candidat a déjà postulé, donc la fonction renvoie true. Sinon, elle renvoie false
+
+
 ?>

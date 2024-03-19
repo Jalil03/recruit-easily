@@ -1,4 +1,7 @@
 <?php
+
+// verification du candidat 
+
 session_start();
 $message='';
 include('database.php');
@@ -25,6 +28,7 @@ if($rq->rowCount()!=0)
    $message='<div class="alert alert-danger">email deja existe!</div>';
   }
 else{
+  // les infos sont toutes correcte , on insere dans la base de donne 
    if(!empty($_POST['password']) && !empty($_POST['password2'])){
     $rq=$PDO->prepare('update user set password=? where id_user=?');
     $rq->execute(array($_POST['password'],$_SESSION['id']));

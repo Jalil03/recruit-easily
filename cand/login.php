@@ -1,4 +1,7 @@
 <?php
+
+// une page de login simple 
+
  require('database.php');
  require('util.php');
  init_php_session();
@@ -56,38 +59,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .acc:hover{
-           
-            color: darkslateblue !important;
-        }
-        .acc{
-            text-decoration:none;
-            color:black;
-        }
-        
-        
-    </style>
-  <meta charset="UTF-8">
-  <title>Home page</title>
-  <link  rel="stylesheet" href="style2.css">
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="../styleLogin.css">
 </head>
 <body>
       <div class="container">
-          <div class="logo"><a href="../index.php"><img src="../images/logoW.jpg" alt="logo du site techjob" width="100px" height="auto"></a></div>
+          <div class="logo"><a href="../index.php"><img src="../images/logoW.jpg" alt="logo du site recruit easily" width="100px" height="auto"></a></div>
       </div>
       
 <div class="conteneur">
   <div class="row">
-      <div>
-         <img src="avatar2.png" alt="mascot du site" width="auto" height="500px">
-      </div>
+    
       <div class="col">
       <h2>Login</h2>
       <form action="login.php" method="POST" class="ms-5 mt-3">
         <div class="field">
           <label for="email">Email:</label><br>
-          <input type="text" name="email" id="email" placeholder="username">
+          <input type="text" name="email" id="email" placeholder="email">
         </div>
         <div class="field">
           <label for="email">Password:</label><br>
@@ -102,9 +92,7 @@
         </div> 
       </form>
       </div>
-      <div>
-         <img src="avatar.png" alt="mascot du site" width="auto" height="500px">
-      </div>
+      
   </div>
 </div>
       

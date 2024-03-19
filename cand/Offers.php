@@ -54,12 +54,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
       $requete .= " and offre_type = :type";
     }
 
-    $requete .= " ORDER BY date_publication DESC"; // on réalise l'affichage par l'offre la plus récente à la plus ancienne
+    $requete .= " ORDER BY date_publication DESC"; 
+    // on réalise l'affichage par l'offre la plus récente à la plus ancienne
 
     $stmt = $PDO->prepare($requete);
 
    if($dom != 0 )
-    $stmt->bindParam(':idd',$dom);
+    $stmt->bindParam(':idd',$dom); // pour eviter les injections sqls
    if($ville != 0)
     $stmt->bindParam(':idv',$ville);
    if($type != 0)
@@ -69,7 +70,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     $offres = $stmt->fetchAll(PDO::FETCH_ASSOC); // on récupère tous les enregistrements dans $offres
 
 }
-// On cherche le nom du user pour l'afficher
+
+
+// a la fin du traitement on va nome toute la requette par offres
+
+// On cherche le nom du candidat pour l'afficher
+
 if($_SESSION['type_user'] == 2)
 {
   $rq = "select nom, prenom FROM candidat WHERE id_candidat = :id";
@@ -85,6 +91,8 @@ if($_SESSION['type_user'] == 2)
    $prenomPseudo="";
   }
 }
+
+// chercher nom rec pour l'afficher 
 
 else {
 $rq="select nom_societe FROM recruteur WHERE id_recruteur = :id";
@@ -110,133 +118,145 @@ $stmt = $PDO->prepare($rq);
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link  rel="stylesheet" href="style_de_Offers.css">
-    <link rel="stylesheet" href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
- <style>
-     /*pour les notificatios*/
-     .dropdown {
-  position: relative;
-  display: inline-block;
+    <link rel="stylesheet" href="styling1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <style>
+
+      /* style pr notification */
+  
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+#dropdown {
+    text-decoration: none;
+    color: black;
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 12px 16px;
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content li {
+    padding: 10px;
+}
+
+.dropdown-content li:hover {
+    background-color: #ddd;
+}
+
+.dropdown-content hr {
+    margin: 5px 0;
 }
 
 
-li{
-  list-style: none;
-}
-.a{
-  background-color: red;
-  color: white;
-  padding: 2px 4px;
-  text-align: center;
-  border-radius: 50%;
-  position:relative;
-  bottom:16px;
-  right:3px;
- 
-}
-.b{
- color:red;
-}
- </style>
+.badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 5px 8px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+    </style>
 </head>
 <body>
    
-
-      <!-- Navbar part --> 
-       <div class="container">
-         <div class="logo">
-            <img src="../images/logoW.jpg" alt="logo du site techjob" width="100px" height="auto">
-         </div>
-         <div class="navigation">
-            <p><a href="dashboard.php">Candidats</a></p>
-            <p><a href="Offers.php">Offers</a></p>
-            <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']!=1): ?>
+<div class="containerxxx">
+      <div class="logo">
+      <img src="../images/logoW.jpg" alt="">
+    </div>
+      <div class="navigation">
+         <p><a href="dashboard.php">Candidats</a></p>
+         <p><a href="Offers.php">Offers</a></p>
+         <?php if(isset($_SESSION['type_user']) && $_SESSION['type_user']!=1): ?>
           <p><a href="profilc.php">Profile</a></p>
           <?php else: ?>
             <p><a href="profilrec.php">Profile</a></p>
             <?php endif; ?>
-            <!-- La partie qui va contenir les notifications  pour les candidats ! -->
-       <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']!=1): ?>
-
+            <?php if(isset($_SESSION['type_user']) && $_SESSION['type_user'] != 1): ?>
+<!-- Partie qui concerne les notifications -->
 <?php
- $sql = $PDO->prepare('SELECT * FROM msg  WHERE status = 0 and id_candidat=?');
- $sql->execute([$_SESSION['id']]);
- $count = $sql->rowCount();
- 
-   ?>
-   <div class="dropdown" >
-   <a   id="dropdown" href="#"  role="button" >
-          <img src="eml.png"  alt=""><span  class="a"><?= $count ;?></span>
-        
-</a>
-          <ul id="dp" class="dropdown-content">
-        <?php 
-       $sql1 = $PDO->prepare('SELECT * FROM msg WHERE status = 0 and id_candidat=?');
-       $sql1->execute([$_SESSION['id']]);
-       if ($sql1->rowCount() > 0) {
-           while ($result = $sql1->fetch()) {
-               echo '<li ><a class="dropdown-item text-primary font-weight-bold" href="read.php?id=' . $result['id_message'] . '">' . $result['messages'] . '</a></li>';
-               echo '<li><hr class="dropdown-divider"></li>';
-           }
-       }
-       
-       else{
-           echo '<li><a class="dropdown-item text-danger  b " href="#"><img src="sad.png">  Sorry! No Messages</a> </li>';
-       }
-       ?> 
-      </ul>
-      
-      </div >
- <?php endif; ?> 
+$sql = $PDO->prepare('SELECT * FROM msg WHERE status = 0 and id_candidat=?');
+$sql->execute([$_SESSION['id']]);
+$count = $sql->rowCount();
+?>
+<div class="dropdown">
+    <a id="dropdown" href="#" role="button" onclick="toggleDropdown()">
+        <i class="fas fa-bell"></i> <!-- Icône de notification -->
+        <?php if ($count > 0): ?>
+            <span class="badge"><?= $count; ?></span> <!-- Badge dynamique pour afficher le nombre de notifications -->
+        <?php endif; ?>
+    </a>
+    <ul id="dp" class="dropdown-content">
+        <?php
+        if ($sql->rowCount() > 0) {
+            while ($result = $sql->fetch()) {
+                echo '<a class="dropdown-item text-primary font-weight-bold" href="read.php?id=' . $result['id_message'] . '">' . $result['messages'] . '</a>';
+                echo '<li><hr class="dropdown-divider"></li>';
+            }
+        } else {
+            echo '<li><a class="dropdown-item text-danger b" href="#">  Désolé! Aucune nouvelle notification<a style="color:blue;" href="read.php">Voir les messages<a></a></li>';
+        }
+        ?>
+    </ul>
+</div>
+<?php endif; ?>
+
+
          <!-- La fin  de partie qui concerne les notificatios des candidats  ! -->
-         </div>
-         <div class="bouttons">
-         <p style="display:inline; font-size:larger; margin-right:20px;"><strong><?= $nomPseudo ?><?= $prenomPseudo ?></strong></p>
-            <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1): ?>
-               <button class="post" name='poster'><a href="form_offer.php">Post an offer</a></button>
+      </div>
+      <div class="bouttons">
+         <?php if(isset( $_SESSION['type_user']) && $_SESSION['type_user']==1): ?>
+            <button class="disconnect disconnect2" name='poster'><a href="form_offer.php">Post an offer</a></button>
             <?php endif; ?>
             <!--  Si l'utilisateur veut se déconnecter on va le redirectionner vers login.php 
             on précise le champ action=logout (le traitement est dans la partie en haut) -->
-            <button><a href="../index.php?action=logout" class="disconnect">Disconnect</a></button>
+            <a href="../index.php?action=logout" class="disconnect">Disconnect</a>
          </div>
-       </div>
+      
+      </div>
+
+
 
        <!-- PARTIE FILTRE / -->
        <div class="search">
         <form method="POST" id="form">
 
             <!-- TRI PAR DOMAINE: -->
-            <label for="domaine">Select a domain:</label>
+            <label for="domaine">Choisis le domaine:</label>
             <select name="domaine" id="domaine">
-                <option value="0">Select a domain</option>
+                <option value="0">Domaine</option>
                 <?php foreach($domaines as $domaine) 
                   echo "<option value=".$domaine['id_domaine'].">".$domaine['nom_domaine']."</option>";
                 ?>
             </select>
-
+            &nbsp;&nbsp;&nbsp;
              <!-- TRI PAR VILLE: -->
-            <label for="ville">Pick a city:</label>
+            <label for="ville">Choisis la ville:</label>
             <select name="ville" id="ville">
-                <option value="0">Select a city:</option>
+                <option value="0">Ville</option>
                 <?php foreach($villes as $ville) 
                   echo "<option value=".$ville['id_ville'].">".$ville['nom_ville']."</option>";
                 ?>
             </select>
-
+            &nbsp;&nbsp;&nbsp;
              <!-- TRI PAR TYPE D'OFFRE: -->
             <select name="type_offre" id="type_offre">
-               <option value="0">pick offer type</option>
+               <option value="0">Choisis type d'offre</option>
                <option value="stage">internship</option>
                <option value="travail">job</option>
             </select>
@@ -244,55 +264,67 @@ li{
         </form>
       </div>
       
-  <!-- La partie qui va contenir la liste des candidats ! -->
-<div class="boxContainer">
- <?php if (!empty($offres)) :?> <!-- Si la requête renvoie des enregistrements on va les affichers -->
-         <?php foreach ($offres as $offre): ?>
-    <div class="box rounded">
-         <div id="cs" class="text-center img2">
-            <div class="con">
-              <!-- La partie qui va contenir les images   ! -->
-              <?php if(!empty($offre['photo'])): ?>
-             <?php 
-             // the filename is stored in this variable
-              $nomImage = $offre['photo']; 
-              // the path to the image is created using the filename
-              $cheminImage = "../register/upload1/" . $nomImage; 
-              echo "<img  width='100px' height='90px' src='" . $cheminImage . "' >";
-              ?>
-             <?php else: ?>
-              <img src="../images/logoW.jpg" class="logo" alt="logo du site techjob" width="100px" height="auto">
-              <?php endif; ?>
-              <!-- La fin du traitement  (les images)  ! -->
-             <!-- si l'offre est active ( la fonction active() est définie dans util.php) -->
-               <?php if(active($offre['is_active'])): ?>
-               <div class="active" style='background-color: darkgreen;'>is active</div> 
-            <!-- si l'offre n'est plus active -->
-               <?php else: ?>
-               <div class="active" style='background-color: gray;'>not active</div> 
-               <?php endif ?>
-            </div>
-             <h4> <?= $offre['nom_societe'] ?></h4><!-- ON AFFICHE LE DOMAINE DE L'OFFRE -->
-             <h5 class="mt-3">Domaine : <?= $offre['nom_domaine'] ?></h5> <!-- ON AFFICHE LE DOMAINE DE L'OFFRE -->
-             <h5 class="mt-3">City: <?= $offre['nom_ville']?> </h5>
-             <p class="mt-3"><strong></strong> Offer type:<?= $offre['offre_type'] ?></p>
-        <?php if(active($offre['is_active'])): ?>   
-          <button name="submit" >
-            <a href="info_offre.php?id=<?=$offre['id_offre']?>" class="Contactez nous">Check offer</a>
-          </button>
-          <small> <?php if(postuler($_SESSION['id'],$offre['id_offre'])):?> 
-            already submitted
-           <?php endif?> 
-          
-          </small>
-        <?php else:?>
-          <button name="submit" class="not" disabled style="background-color:gray;">Offer not available</button>
-        <?php endif ?>
-      </div>
-    </div>
-           <?php endforeach ?>
-           
-</div> 
+  <!-- La partie qui va contenir la liste des offres ! -->
+
+  <div class="jack">
+      <?php if (!empty($offres)) :?> <!-- Si la requête renvoie des enregistrements on va les affichers -->
+        <?php foreach ($offres as $offre): ?>
+          <div class="boxrounded boxrounded2">
+            <div id="cs" class="">
+              <div class="haut">
+                    <?php if(!empty($offre['photo'])): ?>
+                  <?php 
+                  // the filename is stored in this variable
+                    $nomImage = $offre['photo']; 
+                    // the path to the image is created using the filename
+                    $cheminImage = "../register/upload1/" . $nomImage; 
+                    echo "<img  width='100px' height='90px' src='" . $cheminImage . "' >";
+                    ?>
+                  <?php else: ?>
+                    <img src="../images/logoW.jpg" class="logo" alt="logo du site techjob" width="100px" height="auto">
+                    <?php endif; ?>
+                    <!-- La fin du traitement  (les images)  ! -->
+                  <!-- si l'offre est active ( la fonction active() est définie dans util.php) -->
+              </div>
+
+              <?php if(active($offre['is_active'])): ?>
+                    <div class="active" >Ouverte</div> 
+                  <!-- si l'offre n'est plus active -->
+                    <?php else: ?>
+                    <div class="notactive">Fermée</div> 
+                    <?php endif ?>
+
+              <h4> <?= $offre['nom_societe'] ?></h4><!-- ON AFFICHE LE NOM DE L'OFFRE -->
+              <h5 class="mt-3">Domaine : <?= $offre['nom_domaine'] ?></h5> <!-- ON AFFICHE LE DOMAINE DE L'OFFRE -->
+              <h5 class="mt-3">City: <?= $offre['nom_ville']?> </h5>
+              <p class="mt-3"><strong></strong> Offer type:<?= $offre['offre_type'] ?></p>
+              
+              <!-- La partie de la postulation -->              
+                <?php if(active($offre['is_active'])): ?>   
+                  
+                  <?php if(!postuler($_SESSION['id'],$offre['id_offre'])):?> 
+                    <button name="submit" class="suqdfoic" >
+                      <a href="info_offre.php?id=<?=$offre['id_offre']?>" class="Contactez nous">Check offer</a>
+                    </button>
+                          <!-- si on click sur check offre on va partir a info-offre -->                    
+                  <?php endif?> 
+                  
+                  
+                  <div class="sqduiwvcx"> 
+                    <!-- La fonction postuler est seulement pour candidat  -->               
+                   <?php if(postuler($_SESSION['id'],$offre['id_offre'])):?> 
+                    Vous avez déja postulé à cette offre
+                  <?php endif?> 
+                  </div>
+                    <?php else:?>
+                    <button name="submit" class="izhqd" disabled >Offer not available</button>
+                <?php endif ?>
+            </div> 
+          </div> 
+        <?php endforeach ?>
+  </div>
+
+
    <!-- Si la requête ne renvoie aucun enregistrement  -->
 <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <h2 class="nodata">No offers found</h2>
@@ -300,6 +332,19 @@ li{
             
 <script src="filtreoff.js"></script>
   <script src="java.js"></script>     
+
+  <script>
+    
+function toggleDropdown() {
+    var dropdownContent = document.getElementById('dp');
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+    } else {
+        dropdownContent.style.display = 'block';
+    }
+}
+
+  </script>
             
     
 </body>
